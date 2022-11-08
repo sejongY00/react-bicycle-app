@@ -75,6 +75,19 @@ function App() {
       <div className="container">
         <div className="nav">
           <div
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+              marginBottom: "1rem",
+              fontSize: "1.2rem",
+            }}
+          >
+            <span>자전거</span>
+            <span>교통사고 다발 지역 안내 어플</span>
+          </div>
+          <div
             style={{ width: "100%", display: "flex", justifyContent: "center" }}
           >
             <button
@@ -177,7 +190,7 @@ function App() {
               width: "100%",
               display: "flex",
               flexDirection: "column",
-              maxHeight: "50%",
+              maxHeight: "40%",
               overflow: "scroll",
             }}
           >
