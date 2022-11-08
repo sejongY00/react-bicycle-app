@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/react-bicycle-app/static/css/main.c18ec5ca.css",
-    "main.js": "/react-bicycle-app/static/js/main.0f491615.js",
+    "main.js": "/react-bicycle-app/static/js/main.6091e602.js",
     "static/js/787.480b9eae.chunk.js": "/react-bicycle-app/static/js/787.480b9eae.chunk.js",
     "index.html": "/react-bicycle-app/index.html",
     "main.c18ec5ca.css.map": "/react-bicycle-app/static/css/main.c18ec5ca.css.map",
-    "main.0f491615.js.map": "/react-bicycle-app/static/js/main.0f491615.js.map",
+    "main.6091e602.js.map": "/react-bicycle-app/static/js/main.6091e602.js.map",
     "787.480b9eae.chunk.js.map": "/react-bicycle-app/static/js/787.480b9eae.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c18ec5ca.css",
-    "static/js/main.0f491615.js"
+    "static/js/main.6091e602.js"
   ]
 }
