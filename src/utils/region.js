@@ -1,6 +1,7 @@
 const region = [
   {
-    siDoName: "서울특별시",
+    siDoName: "서울",
+    siDoFull: "서울특별시",
     siDo: 11,
     guGuns: [
       { guGunName: "강남구", guGun: 680 },
@@ -8,7 +9,8 @@ const region = [
     ],
   },
   {
-    siDoName: "부산광역시",
+    siDoName: "부산",
+    siDoFull: "부산광역시",
     siDo: 26,
     guGuns: [
       { guGunName: "강서구", guGun: 440 },
@@ -16,4 +18,5 @@ const region = [
     ],
   },
 ];
+
 export default region;
