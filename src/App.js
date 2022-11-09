@@ -22,8 +22,7 @@ function App() {
   const [searchYearCd, setSearchYearCd] = useState(2020);
   const [siDo, setSiDo] = useState(11);
   const [guGuns, setGuGuns] = useState(region[0].guGuns);
-  const [guGun, setGuGun] = useState(680);
-  const [selGuGun, setSelGuGun] = useState(680);
+  const [guGun, setGuGun] = useState(0);
   const { latitude, longitude, loaded } = useCoords();
   const [center, setCenter] = useState({ lat: 33.450701, lng: 126.570667 });
   const [listCount, setListCount] = useState(0);
@@ -114,6 +113,7 @@ function App() {
                     onClick={() => {
                       setGuGuns(item.guGuns);
                       setSiDo(item.siDo);
+                      setGuGun(0);
                     }}
                   >
                     {item.siDoName}
@@ -126,29 +126,18 @@ function App() {
                 <h3>2. 시/군/구 선택</h3>
               </div>
               <div className="selContainer">
-                {/* {guGuns.map((item, index) => (
-                  <button
-                    className={
-                      "regionButton" +
-                      (selGuGun === index + item.guGun ? " active" : "") +
-                      (item.guGunName.length > 4 ? " long" : "") +
-                      (item.guGunName.length > 6 ? " tooLong" : "")
-                    }
-                    key={index}
-                    onClick={() => {
-                      setGuGun(item.guGun);
-                      setSelGuGun(index + item.guGun);
-                    }}
-                  >
-                    {item.guGunName}
-                  </button>
-                ))} */}
                 <select
                   className="regionList"
-                  onChange={(e) => setGuGun(e.target.value)}
+                  value={guGun}
+                  onChange={(e) => {
+                    setGuGun(e.target.value);
+                  }}
                 >
+                  <option value={0}>------- 시/군/구 선택 -------</option>
                   {guGuns.map((item, index) => (
-                    <option value={item.guGun}>{item.guGunName}</option>
+                    <option key={index} value={item.guGun}>
+                      {item.guGunName}
+                    </option>
                   ))}
                 </select>
               </div>
