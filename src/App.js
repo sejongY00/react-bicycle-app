@@ -6,6 +6,7 @@ import { fetchData } from "./api/APIUtils";
 import KakaoMap from "./components/KakaoMap";
 import useCoords from "./hook/useCoords";
 import region from "./utils/region";
+import years from "./utils/years";
 import AppIcon from "./assets/icons/accident.png";
 import locateIcon from "./assets/icons/location.png";
 import Lottie from "lottie-react";
@@ -127,15 +128,9 @@ function App() {
                 className="yearlist"
                 onChange={(e) => setSearchYearCd(e.target.value)}
               >
-                <option value={2020}>2020년</option>
-                <option value={2019}>2019년</option>
-                <option value={2018}>2018년</option>
-                <option value={2017}>2017년</option>
-                <option value={2016}>2016년</option>
-                <option value={2015}>2015년</option>
-                <option value={2014}>2014년</option>
-                <option value={2013}>2013년</option>
-                <option value={2012}>2012년</option>
+                {years.map((year) => (
+                  <option value={year}>{`${year}년`}</option>
+                ))}
               </select>
             </div>
           </div>
