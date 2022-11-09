@@ -30,6 +30,10 @@
   z-index: 2;
   background-color: white;
   box-shadow: 0 0 5px 0 rgb(0 0 0 / 20%), 5px 0 15px 0 rgb(0 0 0 / 10%);
+  transition: 300ms;
+}
+.nav-chart {
+  width: 30rem;
 }
 .topContainer {
   width: 100%;
@@ -70,6 +74,7 @@
   color: white;
   border-radius: 3px;
 }
+
 .yearSelect {
   width: 100%;
   display: flex;
@@ -97,6 +102,10 @@
 .spotContainer::-webkit-scrollbar {
   display: none;
 }
+/* .spotContainer-chart {
+  padding: 1rem;
+} */
+
 .spotText {
   width: 100%;
   color: inherit;
@@ -122,9 +131,9 @@
   box-sizing: content-box;
   position: absolute;
   top: 0;
-  left: 16rem;
+  right: -4rem;
   z-index: 3;
-  margin: 1rem;
+  margin-top: 1rem;
 }
 .goMyLocation img {
   width: 50px;
@@ -143,4 +152,23 @@
   align-items: center;
   flex-direction: column;
   padding-bottom: 1rem;
+}
+.bottomNav {
+  width: 100%;
+  display: flex;
+}
+.b-nav {
+  height: 2rem;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  background-color: #ddd;
+}
+.b-nav:hover {
+  cursor: pointer;
+}
+.active1 {
+  background-color: white;
 }

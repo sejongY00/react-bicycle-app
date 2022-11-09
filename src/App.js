@@ -9,17 +9,16 @@ import region from "./utils/region";
 import years from "./utils/years";
 import AppIcon from "./assets/icons/accident.png";
 import locateIcon from "./assets/icons/location.png";
-import Lottie from "lottie-react";
-import LoadingAni from "./assets/json/99297-loading-files.json";
-import EmptyAni from "./assets/json/123723-search-empty.json";
-import ErrPage from "./assets/json/65664-topset-error.json";
+import { Loading, SearchEmpty, Error } from "./components/Animations";
+import Rechart from "./components/rechart";
 
 function App() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [position, setPositon] = useState(0);
   const API_KEY = API_KEYS.BICYCLE_KEY;
-  const [searchYearCd, setSearchYearCd] = useState(2020);
+  const [searchYearCd, setSearchYearCd] = useState(0);
   const [siDo, setSiDo] = useState(11);
   const [guGuns, setGuGuns] = useState(region[0].guGuns);
   const [guGun, setGuGun] = useState(0);
@@ -67,30 +66,18 @@ function App() {
     console.log(data);
   }, [data]);
 
+  useEffect(() => {
+    console.log(position);
+  }, [position]);
+
   if (error) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          width: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-        }}
-      >
-        <Lottie
-          style={{ width: "33%", height: "33%" }}
-          animationData={ErrPage}
-        />
-        <p style={{ fontSize: "2rem" }}>페이지를 찾을 수 없습니다</p>
-      </div>
-    );
+    return <Error />;
   }
 
   return (
     <>
       <div className="container">
-        <div className="nav">
+        <div className={"nav" + (position === 1 ? " nav-chart" : "")}>
           <div className="appTitle">
             <img className="appIcon" alt="bicycle app icon" src={AppIcon} />
             <h1>
@@ -114,6 +101,7 @@ function App() {
                       setGuGuns(item.guGuns);
                       setSiDo(item.siDo);
                       setGuGun(0);
+                      setSearchYearCd(0);
                     }}
                   >
                     {item.siDoName}
@@ -145,53 +133,71 @@ function App() {
             <div className="yearSelect">
               <p className="searchCount">검색건수 : {listCount}</p>
               <select
+                value={searchYearCd}
                 className="yearlist"
                 onChange={(e) => setSearchYearCd(e.target.value)}
               >
+                <option value={0}>연도선택</option>
                 {years.map((year, index) => (
                   <option key={index} value={year}>{`${year}년`}</option>
                 ))}
               </select>
             </div>
           </div>
-          <div className="spotContainer">
-            {!loading ? (
-              <Lottie
-                style={{ marginTop: "auto", marginBottom: "auto" }}
-                animationData={LoadingAni}
-              />
-            ) : data.resultCode !== "00" ? (
-              <div className="empty">
-                <Lottie animationData={EmptyAni} loop={false} />
-                <p>검색 결과가 없습니다.</p>
-              </div>
-            ) : (
-              data.items.item.map((item, index) => (
-                <li className="spotList" key={index}>
-                  <a
-                    className="spotText"
-                    href="#"
-                    onClick={() =>
-                      setCenter({ lat: item.la_crd, lng: item.lo_crd })
-                    }
-                  >
-                    <p style={{ fontSize: "1rem" }}> {item.spot_nm} </p>
-                    <p
-                      style={{
-                        marginTop: "5px",
-                        color: "#9E3500",
-                      }}
+          <div
+            className={
+              "spotContainer" + (position === 1 ? " spotContainer-chart" : "")
+            }
+          >
+            {position == 0 ? (
+              !loading ? (
+                <Loading />
+              ) : data.resultCode !== "00" ? (
+                <SearchEmpty />
+              ) : (
+                data.items.item.map((item, index) => (
+                  <li className="spotList" key={index}>
+                    <a
+                      className="spotText"
+                      href="#"
+                      onClick={() =>
+                        setCenter({ lat: item.la_crd, lng: item.lo_crd })
+                      }
                     >
-                      사고 발생 건수 : {item.occrrnc_cnt}
-                    </p>
-                  </a>
-                </li>
-              ))
+                      <p style={{ fontSize: "1rem" }}> {item.spot_nm} </p>
+                      <p
+                        style={{
+                          marginTop: "5px",
+                          color: "#9E3500",
+                        }}
+                      >
+                        사고 발생 건수 : {item.occrrnc_cnt}
+                      </p>
+                    </a>
+                  </li>
+                ))
+              )
+            ) : (
+              <Rechart />
             )}
           </div>
-        </div>
-        <div className="kakaomap">
-          <KakaoMap positions={positions} center={center} />
+          <div className="bottomNav">
+            <div
+              className={"b-nav" + (position === 0 ? " active1" : "")}
+              onClick={() => setPositon(0)}
+            >
+              연도별 보기
+            </div>
+            <div
+              className={"b-nav" + (position === 1 ? " active1" : "")}
+              onClick={() => {
+                setPositon(1);
+                setSearchYearCd(0);
+              }}
+            >
+              차트 보기
+            </div>
+          </div>
           <div className="goMyLocation">
             <img
               alt="Move To My Location"
@@ -199,6 +205,9 @@ function App() {
               src={locateIcon}
             />
           </div>
+        </div>
+        <div className="kakaomap">
+          <KakaoMap positions={positions} center={center} />
         </div>
       </div>
     </>
