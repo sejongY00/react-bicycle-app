@@ -12,6 +12,7 @@ import locateIcon from "./assets/icons/location.png";
 import Lottie from "lottie-react";
 import LoadingAni from "./assets/json/99297-loading-files.json";
 import EmptyAni from "./assets/json/123723-search-empty.json";
+import ErrPage from "./assets/json/65664-topset-error.json";
 
 function App() {
   const [data, setData] = useState(null);
@@ -46,7 +47,7 @@ function App() {
         setListCount(res.items.item.length);
         setPositons(
           res.items.item.map((item) => ({
-            title: item.sido_sgg_nm,
+            title: item.spot_nm,
             latlng: { lat: item.la_crd, lng: item.lo_crd },
           }))
         );
@@ -66,7 +67,23 @@ function App() {
   }, [data]);
 
   if (error) {
-    return <p>데이터를 불러오지 못했습니다.</p>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <Lottie
+          style={{ width: "33%", height: "33%" }}
+          animationData={ErrPage}
+        />
+        <p style={{ fontSize: "2rem" }}>페이지를 찾을 수 없습니다</p>
+      </div>
+    );
   }
 
   return (
@@ -89,7 +106,7 @@ function App() {
                 {region.map((item, index) => (
                   <button
                     className={
-                      "regionButton" + (siDo == item.siDo ? " active" : "")
+                      "regionButton" + (siDo === item.siDo ? " active" : "")
                     }
                     key={index}
                     onClick={() => {
@@ -110,7 +127,7 @@ function App() {
                 {guGuns.map((item, index) => (
                   <button
                     className={
-                      "regionButton" + (guGun == item.guGun ? " active" : "")
+                      "regionButton" + (guGun === item.guGun ? " active" : "")
                     }
                     key={index}
                     onClick={() => {
@@ -123,13 +140,13 @@ function App() {
               </div>
             </div>
             <div className="yearSelect">
-              <p className="searchCount">{`검색건수 : ${listCount}`}</p>
+              <p className="searchCount">검색건수 : {listCount}</p>
               <select
                 className="yearlist"
                 onChange={(e) => setSearchYearCd(e.target.value)}
               >
-                {years.map((year) => (
-                  <option value={year}>{`${year}년`}</option>
+                {years.map((year, index) => (
+                  <option key={index} value={year}>{`${year}년`}</option>
                 ))}
               </select>
             </div>
@@ -155,7 +172,15 @@ function App() {
                       setCenter({ lat: item.la_crd, lng: item.lo_crd })
                     }
                   >
-                    {item.spot_nm}
+                    <p style={{ fontSize: "1rem" }}> {item.spot_nm} </p>
+                    <p
+                      style={{
+                        marginTop: "5px",
+                        color: "#9E3500",
+                      }}
+                    >
+                      사고 발생 건수 : {item.occrrnc_cnt}
+                    </p>
                   </a>
                 </li>
               ))
@@ -165,7 +190,11 @@ function App() {
         <div className="kakaomap">
           <KakaoMap positions={positions} center={center} />
           <div className="goMyLocation">
-            <img onClick={() => goMyLocation()} src={locateIcon} />
+            <img
+              alt="Move To My Location"
+              onClick={() => goMyLocation()}
+              src={locateIcon}
+            />
           </div>
         </div>
       </div>

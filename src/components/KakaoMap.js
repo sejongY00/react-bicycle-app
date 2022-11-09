@@ -14,7 +14,7 @@ const KakaoMap = ({ positions, center }) => {
     >
       {positions.map((position, index) => (
         <MapMarker
-          key={`${position.title}-${position.latlng}`}
+          key={index}
           position={position.latlng} // 마커를 표시할 위치
           image={{
             src: Marker, // 마커이미지의 주소입니다
