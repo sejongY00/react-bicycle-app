@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/react-bicycle-app/static/css/main.35366515.css",
-    "main.js": "/react-bicycle-app/static/js/main.a9246b42.js",
+    "main.css": "/react-bicycle-app/static/css/main.eca99930.css",
+    "main.js": "/react-bicycle-app/static/js/main.242a5c5d.js",
     "static/js/787.480b9eae.chunk.js": "/react-bicycle-app/static/js/787.480b9eae.chunk.js",
     "static/media/accident.png": "/react-bicycle-app/static/media/accident.ed48d85cb0d0dc50b9fc.png",
     "index.html": "/react-bicycle-app/index.html",
-    "main.35366515.css.map": "/react-bicycle-app/static/css/main.35366515.css.map",
-    "main.a9246b42.js.map": "/react-bicycle-app/static/js/main.a9246b42.js.map",
+    "main.eca99930.css.map": "/react-bicycle-app/static/css/main.eca99930.css.map",
+    "main.242a5c5d.js.map": "/react-bicycle-app/static/js/main.242a5c5d.js.map",
     "787.480b9eae.chunk.js.map": "/react-bicycle-app/static/js/787.480b9eae.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.35366515.css",
-    "static/js/main.a9246b42.js"
+    "static/css/main.eca99930.css",
+    "static/js/main.242a5c5d.js"
   ]
 }
