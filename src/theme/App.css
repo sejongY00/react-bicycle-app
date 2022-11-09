@@ -11,6 +11,7 @@
   align-items: center;
   font-weight: bold;
   padding: 0.75rem;
+  margin-bottom: 2rem;
   background-color: #ddd;
 }
 .appIcon {
@@ -40,7 +41,7 @@
   box-shadow: 0 12px 10px -10px rgb(0 0 0 / 20%);
 }
 .sidoContainer {
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 .selTitle {
   font-weight: bold;
@@ -50,18 +51,31 @@
 .selContainer {
   width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 .regionButton {
-  width: 32%;
+  width: 31%;
   margin-left: 2px;
   margin-right: 2px;
+  margin-bottom: 4px;
+}
+.regionList {
+  margin: 0 2px 4px 2px;
+  width: 100%;
+  text-align: center;
 }
 .active {
   background-color: black;
   color: white;
   border-radius: 3px;
 }
+/* .long {
+  width: 48%;
+}
+.tooLong {
+  width: 98%;
+} */
 .yearSelect {
   width: 100%;
   display: flex;

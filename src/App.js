@@ -23,6 +23,7 @@ function App() {
   const [siDo, setSiDo] = useState(11);
   const [guGuns, setGuGuns] = useState(region[0].guGuns);
   const [guGun, setGuGun] = useState(680);
+  const [selGuGun, setSelGuGun] = useState(680);
   const { latitude, longitude, loaded } = useCoords();
   const [center, setCenter] = useState({ lat: 33.450701, lng: 126.570667 });
   const [listCount, setListCount] = useState(0);
@@ -41,6 +42,7 @@ function App() {
 
   useEffect(() => {
     setLoading(false);
+    setListCount(0);
     fetchData(BICYCLE_URL(API_KEY, searchYearCd, siDo, guGun))
       .then((res) => {
         setData(res);
@@ -124,19 +126,31 @@ function App() {
                 <h3>2. 시/군/구 선택</h3>
               </div>
               <div className="selContainer">
-                {guGuns.map((item, index) => (
+                {/* {guGuns.map((item, index) => (
                   <button
                     className={
-                      "regionButton" + (guGun === item.guGun ? " active" : "")
+                      "regionButton" +
+                      (selGuGun === index + item.guGun ? " active" : "") +
+                      (item.guGunName.length > 4 ? " long" : "") +
+                      (item.guGunName.length > 6 ? " tooLong" : "")
                     }
                     key={index}
                     onClick={() => {
                       setGuGun(item.guGun);
+                      setSelGuGun(index + item.guGun);
                     }}
                   >
                     {item.guGunName}
                   </button>
-                ))}
+                ))} */}
+                <select
+                  className="regionList"
+                  onChange={(e) => setGuGun(e.target.value)}
+                >
+                  {guGuns.map((item, index) => (
+                    <option value={item.guGun}>{item.guGunName}</option>
+                  ))}
+                </select>
               </div>
             </div>
             <div className="yearSelect">
