@@ -16,21 +16,22 @@ function App() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [position, setPositon] = useState(0);
+  const [position, setPositon] = useState(0); //하단 내비 용도
+  const [fold, setFold] = useState(false); //주 내비 접기 용도
   const API_KEY = API_KEYS.BICYCLE_KEY;
   const [searchYearCd, setSearchYearCd] = useState(0);
   const [siDo, setSiDo] = useState(11);
   const [guGuns, setGuGuns] = useState(region[0].guGuns);
   const [guGun, setGuGun] = useState(0);
   const { latitude, longitude, loaded } = useCoords();
-  const [center, setCenter] = useState({ lat: 33.450701, lng: 126.570667 });
+  const [center, setCenter] = useState({ lat: 33.450701, lng: 126.570667 }); //맵 중앙 위치 변경
   const [listCount, setListCount] = useState(0);
   const [positions, setPositons] = useState([
     {
       title: "",
       latlng: { lat: null, lng: null },
     },
-  ]);
+  ]); //맵 마커 용도
 
   const goMyLocation = () => {
     loaded
@@ -66,10 +67,6 @@ function App() {
     console.log(data);
   }, [data]);
 
-  useEffect(() => {
-    console.log(position);
-  }, [position]);
-
   if (error) {
     return <Error />;
   }
@@ -77,7 +74,13 @@ function App() {
   return (
     <>
       <div className="container">
-        <div className={"nav" + (position === 1 ? " nav-chart" : "")}>
+        <div
+          className={
+            "nav" +
+            (position === 1 ? " nav-chart" : "") +
+            (fold ? (position === 1 ? " fold-inChart" : " fold") : "")
+          }
+        >
           <div className="appTitle">
             <img className="appIcon" alt="bicycle app icon" src={AppIcon} />
             <h1>
@@ -102,6 +105,7 @@ function App() {
                       setSiDo(item.siDo);
                       setGuGun(0);
                       setSearchYearCd(0);
+                      setPositon(0);
                     }}
                   >
                     {item.siDoName}
@@ -139,7 +143,9 @@ function App() {
               >
                 <option value={0}>연도선택</option>
                 {years.map((year, index) => (
-                  <option key={index} value={year}>{`${year}년`}</option>
+                  <option key={index} value={year}>
+                    {year}년
+                  </option>
                 ))}
               </select>
             </div>
@@ -204,6 +210,14 @@ function App() {
               onClick={() => goMyLocation()}
               src={locateIcon}
             />
+          </div>
+          <div
+            className="nav-fold-btn"
+            onClick={() => {
+              setFold((cur) => !cur);
+            }}
+          >
+            {fold ? "더보기" : "접기"}
           </div>
         </div>
         <div className="kakaomap">
