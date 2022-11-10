@@ -10,7 +10,7 @@ import years from "./utils/years";
 import AppIcon from "./assets/icons/accident.png";
 import locateIcon from "./assets/icons/location.png";
 import { Loading, SearchEmpty, Error } from "./components/Animations";
-import Rechart from "./components/rechart";
+import Chart from "./components/Chart";
 
 function App() {
   const [data, setData] = useState(null);
@@ -26,6 +26,13 @@ function App() {
   const { latitude, longitude, loaded } = useCoords();
   const [center, setCenter] = useState({ lat: 33.450701, lng: 126.570667 }); //맵 중앙 위치 변경
   const [listCount, setListCount] = useState(0);
+  const [chartData, setChartData] = useState([
+    {
+      Year: null,
+      사고건수: null,
+    },
+  ]);
+  const [chartLoad, setChartLoad] = useState(false);
   const [positions, setPositons] = useState([
     {
       title: "",
@@ -38,8 +45,7 @@ function App() {
       ? setCenter({ lat: latitude, lng: longitude })
       : setCenter((cur) => cur);
   };
-
-  useEffect(() => {
+  const getData = () => {
     setLoading(false);
     setListCount(0);
     fetchData(BICYCLE_URL(API_KEY, searchYearCd, siDo, guGun))
@@ -57,6 +63,22 @@ function App() {
       .finally(() => {
         setLoading(true);
       });
+  };
+  const getChartData = async () => {
+    setChartLoad(false);
+    let data = [];
+    for (let i = 2012; i <= 2020; i++) {
+      await fetchData(BICYCLE_URL(API_KEY, i, siDo, guGun)).then((res) => {
+        data.push({ Year: `${i}년`, 사고건수: res.items.item.length });
+      });
+    }
+    setChartData(data);
+    setChartLoad(true);
+  };
+
+  useEffect(() => {
+    getData();
+    getChartData();
   }, [searchYearCd, guGun]);
 
   useEffect(() => {
@@ -155,7 +177,7 @@ function App() {
               "spotContainer" + (position === 1 ? " spotContainer-chart" : "")
             }
           >
-            {position == 0 ? (
+            {position === 0 ? (
               !loading ? (
                 <Loading />
               ) : data.resultCode !== "00" ? (
@@ -183,8 +205,14 @@ function App() {
                   </li>
                 ))
               )
+            ) : chartLoad ? (
+              guGun === 0 ? (
+                <SearchEmpty />
+              ) : (
+                <Chart data={chartData} dataName="Year" dataValue="사고건수" />
+              )
             ) : (
-              <Rechart />
+              <Loading />
             )}
           </div>
           <div className="bottomNav">

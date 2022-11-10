@@ -47,13 +47,13 @@
   left: -16rem;
 }
 .fold-inChart {
-  left: -30rem;
+  left: -40%;
 }
 .none {
   display: none;
 }
 .nav-chart {
-  width: 30rem;
+  width: 40%;
 }
 .topContainer {
   width: 100%;
@@ -73,7 +73,7 @@
   margin-left: 0.5rem;
 }
 .selContainer {
-  width: 100%;
+  width: 14rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -96,7 +96,7 @@
 }
 
 .yearSelect {
-  width: 100%;
+  width: 14rem;
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.5rem;
