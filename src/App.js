@@ -29,6 +29,7 @@ function App() {
   const [chartData, setChartData] = useState([
     {
       Year: null,
+      YearNum: null,
       사고건수: null,
     },
   ]);
@@ -70,13 +71,12 @@ function App() {
     for (let i = 2012; i <= 2020; i++) {
       await fetchData(BICYCLE_URL(API_KEY, i, siDo, guGun)).then((res) => {
         let sum = 0;
-        if (res.items.item.length != 0) {
+        if (res.items.item.length !== 0) {
           for (let j = 0; j < res.items.item.length; j++) {
             sum += res.items.item[j].occrrnc_cnt;
-            console.log(i, j, sum);
           }
         }
-        data.push({ Year: `${i}년`, 사고건수: sum });
+        data.push({ Year: `${i}년`, YearNum: i, 사고건수: sum });
       });
     }
     setChartData(data);
@@ -192,9 +192,8 @@ function App() {
               ) : (
                 data.items.item.map((item, index) => (
                   <li className="spotList" key={index}>
-                    <a
+                    <div
                       className="spotText"
-                      href="#"
                       onClick={() =>
                         setCenter({ lat: item.la_crd, lng: item.lo_crd })
                       }
@@ -208,7 +207,7 @@ function App() {
                       >
                         사고 발생 건수 : {item.occrrnc_cnt}
                       </p>
-                    </a>
+                    </div>
                   </li>
                 ))
               )
@@ -216,7 +215,15 @@ function App() {
               guGun === 0 ? (
                 <SearchEmpty />
               ) : (
-                <Chart data={chartData} dataName="Year" dataValue="사고건수" />
+                <Chart
+                  data={chartData}
+                  dataName="Year"
+                  dataValue="사고건수"
+                  onClick={(e) => {
+                    setSearchYearCd(e.YearNum);
+                    setPositon(0);
+                  }}
+                />
               )
             ) : (
               <Loading />

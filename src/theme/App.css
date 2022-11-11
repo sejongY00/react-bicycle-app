@@ -142,6 +142,7 @@
 .spotList:hover {
   background-color: black;
   color: white;
+  cursor: pointer;
 }
 .kakaomap {
   display: flex;
