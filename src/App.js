@@ -69,7 +69,14 @@ function App() {
     let data = [];
     for (let i = 2012; i <= 2020; i++) {
       await fetchData(BICYCLE_URL(API_KEY, i, siDo, guGun)).then((res) => {
-        data.push({ Year: `${i}년`, 사고건수: res.items.item.length });
+        let sum = 0;
+        if (res.items.item.length != 0) {
+          for (let j = 0; j < res.items.item.length; j++) {
+            sum += res.items.item[j].occrrnc_cnt;
+            console.log(i, j, sum);
+          }
+        }
+        data.push({ Year: `${i}년`, 사고건수: sum });
       });
     }
     setChartData(data);

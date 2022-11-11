@@ -60,7 +60,7 @@ function Chart({ data, dataName, dataValue }) {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey={dataValue} fill="#8884d8" />
+        <Bar dataKey={dataValue} fill="darkgray" />
       </BarChart>
     </ResponsiveContainer>
   );
