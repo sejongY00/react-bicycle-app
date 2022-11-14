@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./theme/App.css";
 import API_KEYS from "./api/API_KEYS";
 import { BICYCLE_URL } from "./api/API_URLS";
@@ -41,12 +41,12 @@ function App() {
     },
   ]); //맵 마커 용도
 
-  const goMyLocation = () => {
+  const goMyLocation = useCallback(() => {
     loaded
       ? setCenter({ lat: latitude, lng: longitude })
       : setCenter((cur) => cur);
-  };
-  const getData = () => {
+  }, [latitude, longitude, loaded]);
+  const getData = useCallback(() => {
     setLoading(false);
     setListCount(0);
     fetchData(BICYCLE_URL(API_KEY, searchYearCd, siDo, guGun))
@@ -64,8 +64,8 @@ function App() {
       .finally(() => {
         setLoading(true);
       });
-  };
-  const getChartData = async () => {
+  }, [API_KEY, searchYearCd, siDo, guGun]);
+  const getChartData = useCallback(async () => {
     setChartLoad(false);
     let data = [];
     for (let i = 2012; i <= 2020; i++) {
@@ -81,7 +81,7 @@ function App() {
     }
     setChartData(data);
     setChartLoad(true);
-  };
+  }, [API_KEY, siDo, guGun]);
 
   const onClickSiDo = (item) => {
     setGuGuns(item.guGuns);
@@ -128,11 +128,11 @@ function App() {
   useEffect(() => {
     getData();
     getChartData();
-  }, [searchYearCd, guGun]);
+  }, [getData, getChartData]);
 
   useEffect(() => {
     goMyLocation();
-  }, [loaded]);
+  }, [goMyLocation]);
 
   useEffect(() => {
     console.log(data);
