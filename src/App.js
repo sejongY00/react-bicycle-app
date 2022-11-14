@@ -83,6 +83,40 @@ function App() {
     setChartLoad(true);
   };
 
+  const onClickSiDo = (item) => {
+    setGuGuns(item.guGuns);
+    setSiDo(item.siDo);
+    setGuGun(0);
+    setSearchYearCd(0);
+    setPositon(0);
+  };
+
+  const onChangeGuGun = (e) => {
+    setGuGun(e.target.value);
+  };
+
+  const onChangeYear = (e) => {
+    setSearchYearCd(e.target.value);
+  };
+
+  const onClickList = (item) => {
+    setCenter({ lat: item.la_crd, lng: item.lo_crd });
+  };
+
+  const onClickBar = (e) => {
+    setSearchYearCd(e.YearNum);
+    setPositon(0);
+  };
+
+  const onClickSortYear = () => {
+    setPositon(0);
+  };
+
+  const onClickChartView = () => {
+    setPositon(1);
+    setSearchYearCd(0);
+  };
+
   useEffect(() => {
     getData();
     getChartData();
@@ -130,11 +164,7 @@ function App() {
                     }
                     key={index}
                     onClick={() => {
-                      setGuGuns(item.guGuns);
-                      setSiDo(item.siDo);
-                      setGuGun(0);
-                      setSearchYearCd(0);
-                      setPositon(0);
+                      onClickSiDo(item);
                     }}
                   >
                     {item.siDoName}
@@ -151,7 +181,7 @@ function App() {
                   className="regionList"
                   value={guGun}
                   onChange={(e) => {
-                    setGuGun(e.target.value);
+                    onChangeGuGun(e);
                   }}
                 >
                   <option value={0}>------- 시/군/구 선택 -------</option>
@@ -168,7 +198,7 @@ function App() {
               <select
                 value={searchYearCd}
                 className="yearlist"
-                onChange={(e) => setSearchYearCd(e.target.value)}
+                onChange={(e) => onChangeYear(e)}
               >
                 <option value={0}>연도선택</option>
                 {years.map((year, index) => (
@@ -192,12 +222,7 @@ function App() {
               ) : (
                 data.items.item.map((item, index) => (
                   <li className="spotList" key={index}>
-                    <div
-                      className="spotText"
-                      onClick={() =>
-                        setCenter({ lat: item.la_crd, lng: item.lo_crd })
-                      }
-                    >
+                    <div className="spotText" onClick={() => onClickList(item)}>
                       <p style={{ fontSize: "1rem" }}> {item.spot_nm} </p>
                       <p
                         style={{
@@ -220,8 +245,7 @@ function App() {
                   dataName="Year"
                   dataValue="사고건수"
                   onClick={(e) => {
-                    setSearchYearCd(e.YearNum);
-                    setPositon(0);
+                    onClickBar(e);
                   }}
                 />
               )
@@ -232,15 +256,14 @@ function App() {
           <div className="bottomNav">
             <div
               className={"b-nav" + (position === 0 ? " active1" : "")}
-              onClick={() => setPositon(0)}
+              onClick={() => onClickSortYear()}
             >
               연도별 보기
             </div>
             <div
               className={"b-nav" + (position === 1 ? " active1" : "")}
               onClick={() => {
-                setPositon(1);
-                setSearchYearCd(0);
+                onClickChartView();
               }}
             >
               차트 보기
