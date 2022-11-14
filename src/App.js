@@ -99,7 +99,8 @@ function App() {
     setSearchYearCd(e.target.value);
   };
 
-  const onClickList = (item) => {
+  const onClickList = (e, item) => {
+    e.preventDefault();
     setCenter({ lat: item.la_crd, lng: item.lo_crd });
   };
 
@@ -108,13 +109,20 @@ function App() {
     setPositon(0);
   };
 
-  const onClickSortYear = () => {
+  const onClickSortYear = (e) => {
+    e.preventDefault();
     setPositon(0);
   };
 
-  const onClickChartView = () => {
+  const onClickChartView = (e) => {
+    e.preventDefault();
     setPositon(1);
     setSearchYearCd(0);
+  };
+
+  const onClickFold = (e) => {
+    e.preventDefault();
+    setFold((cur) => !cur);
   };
 
   useEffect(() => {
@@ -222,7 +230,11 @@ function App() {
               ) : (
                 data.items.item.map((item, index) => (
                   <li className="spotList" key={index}>
-                    <div className="spotText" onClick={() => onClickList(item)}>
+                    <a
+                      className="spotText"
+                      href="/spotList"
+                      onClick={(e) => onClickList(e, item)}
+                    >
                       <p style={{ fontSize: "1rem" }}> {item.spot_nm} </p>
                       <p
                         style={{
@@ -232,7 +244,7 @@ function App() {
                       >
                         사고 발생 건수 : {item.occrrnc_cnt}
                       </p>
-                    </div>
+                    </a>
                   </li>
                 ))
               )
@@ -254,36 +266,39 @@ function App() {
             )}
           </div>
           <div className="bottomNav">
-            <div
+            <a
+              href="/viewList"
               className={"b-nav" + (position === 0 ? " active1" : "")}
-              onClick={() => onClickSortYear()}
+              onClick={(e) => onClickSortYear(e)}
             >
               연도별 보기
-            </div>
-            <div
+            </a>
+            <a
+              href="/viewChart"
               className={"b-nav" + (position === 1 ? " active1" : "")}
-              onClick={() => {
-                onClickChartView();
+              onClick={(e) => {
+                onClickChartView(e);
               }}
             >
               차트 보기
-            </div>
+            </a>
           </div>
-          <div className="goMyLocation">
+          <div title="내 위치로 이동" className="goMyLocation">
             <img
               alt="Move To My Location"
               onClick={() => goMyLocation()}
               src={locateIcon}
             />
           </div>
-          <div
+          <a
+            href="/fold"
             className="nav-fold-btn"
-            onClick={() => {
-              setFold((cur) => !cur);
+            onClick={(e) => {
+              onClickFold(e);
             }}
           >
             {fold ? "더보기" : "접기"}
-          </div>
+          </a>
         </div>
         <div className="kakaomap">
           <KakaoMap positions={positions} center={center} />
