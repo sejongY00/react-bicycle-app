@@ -232,7 +232,7 @@ function App() {
                   <li className="spotList" key={index}>
                     <a
                       className="spotText"
-                      href="/spotList"
+                      href={`/${item.spot_nm}`}
                       onClick={(e) => onClickList(e, item)}
                     >
                       <p style={{ fontSize: "1rem" }}> {item.spot_nm} </p>
